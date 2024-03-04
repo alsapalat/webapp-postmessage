@@ -17,7 +17,8 @@ function App() {
     <div>
       <form onSubmit={(e) => {
         e.preventDefault();
-        window.postMessage(inputRef.current!.value || 'Hello World', '*')
+        const parent: any = window.parent || window;
+        parent.postMessage(inputRef.current!.value || 'Hello World', '*')
         setLogs(([`<<SEND>>|${new Date().toISOString()}|${inputRef.current!.value || 'Hello World'}`]).concat(logs))
       }}><input style={{ width: '200px' }} ref={inputRef} placeholder="Enter Body (Hello World)" /><button type="submit">Send Message</button></form>
       <hr />
