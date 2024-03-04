@@ -17,12 +17,12 @@ function App() {
     <div>
       <form onSubmit={(e) => {
         e.preventDefault();
-        const parent: any = window.parent || window;
+        const parent: any = window.parent ?? window;
         parent.postMessage(inputRef.current!.value || 'Hello World', '*')
         setLogs(([`<<SEND>>|${new Date().toISOString()}|${inputRef.current!.value || 'Hello World'}`]).concat(logs))
       }}><input style={{ width: '200px' }} ref={inputRef} placeholder="Enter Body (Hello World)" /><button type="submit">Send Message</button></form>
       <hr />
-      <div>Logs:</div>
+      <div>Listener Logs:</div>
       <div style={{ textAlign: 'left', height: '400px', overflow: 'auto' }}>
         <ul>
           {Children.toArray(logs.map((row) => <li>{row}</li>))}
