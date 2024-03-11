@@ -10,4 +10,26 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+  <script>
+    function brridgePrinterGetInfo() {
+      try {
+        // alert("get Printer Info!");
+        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand();
+      } catch (err) {
+        window.postMessage(`ERROR::Unable to get print info!`);
+      }
+    }
+    function brridgePrinterPrint(params) {
+      try {
+        alert("print!");
+        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand(JSON.stringify(params));
+      } catch (err) {
+        window.postMessage(`ERROR::Unable to connect to printer!`);
+      }
+    }
+    function brridgeEvent(code, params) {
+      alert("Got Event!");
+      window.postMessage(`${code}::${params}`)
+    }
+  </script>
 </html>
