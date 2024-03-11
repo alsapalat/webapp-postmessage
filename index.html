@@ -5,10 +5,32 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-DC_KE-O7.js"></script>
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-JnDgBxar.js"></script>
     <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-BkANEfjy.css">
   </head>
   <body>
     <div id="root"></div>
   </body>
+  <script>
+    function brridgePrinterGetInfo() {
+      try {
+        // alert("get Printer Info!");
+        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand();
+      } catch (err) {
+        window.postMessage(`ERROR::Unable to get print info!`);
+      }
+    }
+    function brridgePrinterPrint(params) {
+      try {
+        alert("print!");
+        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand(JSON.stringify(params));
+      } catch (err) {
+        window.postMessage(`ERROR::Unable to connect to printer!`);
+      }
+    }
+    function brridgeEvent(code, params) {
+      alert("Got Event!");
+      window.postMessage(`${code}::${params}`)
+    }
+  </script>
 </html>
