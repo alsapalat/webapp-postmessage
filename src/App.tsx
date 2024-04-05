@@ -1,5 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Children, useEffect, useRef, useState } from 'react';
 import './App.css'
+import { TPrintData } from './brridge/types';
+
+const TEST_PRINT: TPrintData = [
+  { type: 'Text', value: 'Center Text', align: 1 },
+  { type: 'Text', value: 'Left Text', align: 2 },
+  { type: 'Text', value: 'Right Text', align: 3 },
+  { type: 'Divider', value: '+' },
+  { type: 'Text', value: 'S Text Size', align: 1, size: 15 },
+  { type: 'Text', value: 'N Text Size', align: 1, size: 20 },
+  { type: 'Text', value: 'L Text Size', align: 1, size: 25 },
+  { type: 'Text', value: 'XL Text Size', align: 1, size: 30 },
+  { type: 'Text', value: 'XXL Text Size', align: 1, size: 35 },
+  { type: 'Divider', value: '=' },
+  { type: 'Barcode', value: '01234567890' },
+  { type: 'Divider', value: '-' },
+  { type: 'QR', value: '- Hello-World -' },
+]
 
 const PrintButton = () => {
   const [log, setLog] = useState<string[]>([]);
@@ -21,8 +39,8 @@ const PrintButton = () => {
   return (
     <div>
       <button disabled={!canPrint} onClick={() => {
-        window.brridgePrinterPrint(['<<TEXT>>LINE 1','<<TEXT>>LINE 2']);
-      }}>Print</button>
+        window.brridgePrinterPrint(TEST_PRINT);
+      }}>Send Test Print</button>
       <div>
         {Children.toArray(log.map((x) => <div style={{ fontSize: '10px' }}>{x}</div>))}
       </div>
@@ -45,7 +63,7 @@ function App() {
   }, []);
   return (
     <div>
-      <div>v1.0.2</div>
+      <div>v1.0.5</div>
       <button type="button" onClick={() => {
         setT(new Date().getTime())
       }}>Refresh</button>

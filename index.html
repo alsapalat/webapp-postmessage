@@ -14,7 +14,7 @@
     function brridgePrinterGetInfo() {
       try {
         // alert("get Printer Info!");
-        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand();
+        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand("THIS");
       } catch (err) {
         window.postMessage(`ERROR::Unable to get print info!`);
       }
@@ -27,9 +27,9 @@
         window.postMessage(`ERROR::Unable to connect to printer!`);
       }
     }
-    function brridgeEvent(code, params) {
-      alert("Got Event!");
-      window.postMessage(`${code}::${params}`)
+    function brridgeEvent(param) {
+      window.postMessage(`ITS A SONY`);
+      alert(`EVENT: ${param}`);
     }
   </script>
 </html>
