@@ -4,9 +4,9 @@ import './App.css'
 import { TPrintData } from './brridge/types';
 
 const TEST_PRINT: TPrintData = [
-  { type: 'Text', value: 'Center Text', align: 1 },
-  { type: 'Text', value: 'Left Text', align: 2 },
-  { type: 'Text', value: 'Right Text', align: 3 },
+  { type: 'Text', value: 'Center Text', align: 1, size: 20 },
+  { type: 'Text', value: 'Left Text', align: 2, size: 20 },
+  { type: 'Text', value: 'Right Text', align: 3, size: 20 },
   { type: 'Divider', value: '+' },
   { type: 'Text', value: 'S Text Size', align: 1, size: 15 },
   { type: 'Text', value: 'N Text Size', align: 1, size: 20 },
@@ -38,12 +38,16 @@ const PrintButton = () => {
   }, []);
   return (
     <div>
-      <button disabled={!canPrint} onClick={() => {
-        window.brridgePrinterPrint(TEST_PRINT);
-      }}>Send Test Print (Array)</button>
-      <button disabled={!canPrint} onClick={() => {
-        window.brridgePrinterPrint({ data: TEST_PRINT });
-      }}>Send Test Print (Object)</button>
+      <div>
+        <button disabled={!canPrint} onClick={() => {
+          window.brridgePrinterPrint(TEST_PRINT);
+        }}>Send Test Print (Array)</button>
+      </div>
+      <div>
+        <button disabled={!canPrint} onClick={() => {
+          window.brridgePrinterPrint({ data: TEST_PRINT });
+        }}>Send Test Print (Object)</button>
+      </div>
       <div>
         {Children.toArray(log.map((x) => <div style={{ fontSize: '10px' }}>{x}</div>))}
       </div>
@@ -66,7 +70,7 @@ function App() {
   }, []);
   return (
     <div>
-      <div>v1.0.6</div>
+      <div>v1.0.7</div>
       <button type="button" onClick={() => {
         setT(new Date().getTime())
       }}>Refresh</button>
