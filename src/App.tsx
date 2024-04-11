@@ -40,7 +40,10 @@ const PrintButton = () => {
     <div>
       <button disabled={!canPrint} onClick={() => {
         window.brridgePrinterPrint(TEST_PRINT);
-      }}>Send Test Print</button>
+      }}>Send Test Print (Array)</button>
+      <button disabled={!canPrint} onClick={() => {
+        window.brridgePrinterPrint({ data: TEST_PRINT });
+      }}>Send Test Print (Object)</button>
       <div>
         {Children.toArray(log.map((x) => <div style={{ fontSize: '10px' }}>{x}</div>))}
       </div>
@@ -63,7 +66,7 @@ function App() {
   }, []);
   return (
     <div>
-      <div>v1.0.5</div>
+      <div>v1.0.6</div>
       <button type="button" onClick={() => {
         setT(new Date().getTime())
       }}>Refresh</button>

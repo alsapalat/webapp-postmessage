@@ -22,6 +22,7 @@
     function brridgePrinterPrint(params) {
       try {
         alert("print!");
+        console.log(`<<SEND>>::${JSON.stringify(params)}`);
         if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand(JSON.stringify(params));
       } catch (err) {
         window.postMessage(`ERROR::Unable to connect to printer!`);
