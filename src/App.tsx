@@ -5,8 +5,8 @@ import { TPrintData } from './brridge/types';
 
 const TEST_PRINT: TPrintData = [
   { type: 'Text', value: 'Center Text', align: 1, size: 20 },
-  { type: 'Text', value: 'Left Text', align: 2, size: 20 },
-  { type: 'Text', value: 'Right Text', align: 3, size: 20 },
+  { type: 'Text', value: 'Right Text', align: 2, size: 20 },
+  { type: 'Text', value: 'Left Text', align: 3, size: 20 },
   { type: 'Divider', value: '+' },
   { type: 'Text', value: 'S Text Size', align: 1, size: 15 },
   { type: 'Text', value: 'N Text Size', align: 1, size: 20 },
