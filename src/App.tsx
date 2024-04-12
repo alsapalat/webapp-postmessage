@@ -70,7 +70,7 @@ function App() {
   }, []);
   return (
     <div>
-      <div>v1.0.7</div>
+      <div>v1.0.8</div>
       <button type="button" onClick={() => {
         setT(new Date().getTime())
       }}>Refresh</button>
