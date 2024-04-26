@@ -21,7 +21,7 @@
     }
     function brridgePrinterPrint(params) {
       try {
-        alert("print!");
+        // alert("print!");
         console.log(`<<SEND>>::${JSON.stringify(params)}`);
         if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand(JSON.stringify(params));
       } catch (err) {
