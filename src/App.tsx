@@ -8,7 +8,7 @@ import QRCode from 'react-qr-code';
 const TEST_PRINT: TPrintData = [
   { type: 'Text', value: 'Center Text', align: 1, size: 20 },
   { type: 'Text', value: 'Right Text', align: 2, size: 20 },
-  { type: 'Text', value: 'Left Text', align: 3, size: 20 },
+  { type: 'Text', value: 'Left Text', align: 0, size: 20 },
   { type: 'Divider', value: '+' },
   { type: 'Text', value: 'S Text Size', align: 1, size: 15 },
   { type: 'Text', value: 'N Text Size', align: 1, size: 20 },
@@ -138,7 +138,7 @@ function App() {
           <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" onClick={handlePrint} disabled={isPrinting}>
             {!isPrinting ? 'Print' : 'Printing...'}
           </button>
-          <div className="text-center text-xs mt-4">v1.0.8</div>
+          <div className="text-center text-xs mt-4">v1.0.9</div>
         </div>
       </div>
       <EventLogs />
