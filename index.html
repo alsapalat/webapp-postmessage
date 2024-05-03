@@ -14,7 +14,7 @@
     function brridgePrinterGetInfo() {
       try {
         // alert("get Printer Info!");
-        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand("THIS");
+        if (Joseph && typeof Joseph.printerStatus === 'function') Joseph.printerStatus();
       } catch (err) {
         window.postMessage(`ERROR::Unable to get print info!`);
       }
