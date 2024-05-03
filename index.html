@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-kUPTMgy7.js"></script>
-    <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index--bQWVp2u.css">
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-Y4EO_NMT.js"></script>
+    <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-ptnCK-mo.css">
   </head>
   <body>
     <div id="root"></div>
@@ -15,7 +15,7 @@
     function brridgePrinterGetInfo() {
       try {
         // alert("get Printer Info!");
-        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand("THIS");
+        if (Joseph && typeof Joseph.printerStatus === 'function') Joseph.printerStatus();
       } catch (err) {
         window.postMessage(`ERROR::Unable to get print info!`);
       }
