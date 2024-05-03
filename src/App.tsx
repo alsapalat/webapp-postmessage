@@ -163,7 +163,7 @@ function EventLogs() {
     }
   }, []);
   return (
-    <div className="absolute top-0 left-0 w-full text-xs text-white z-10">
+    <div className="absolute top-0 left-0 w-full text-xs text-white z-50 bg-black/40 overflow-hidden max-h-[200px]">
       <div>Logs:</div>
       <ul>
         {Children.toArray(logs.map((row) => <li>{row}</li>))}
