@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-CJrZkB1B.js"></script>
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-BgTjpIUX.js"></script>
     <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-ptnCK-mo.css">
   </head>
   <body>
@@ -33,7 +33,7 @@
       }
     }
     function brridgeEvent(param) {
-      console.log(`<<RECEIVED>>::${params}`);
+      window.postMessage(`<<RECEIVED>>::${params}`);
     }
   </script>
 </html>
