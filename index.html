@@ -32,7 +32,11 @@
       }
     }
     function brridgeEvent(param) {
-      window.postMessage(`<<RECEIVED>>::${params}`);
+      try {
+        window.postMessage(`<<RECEIVED>>::${JSON.stringify(param)}`);
+      } catch (err) {
+        window.postMessage(`ERROR::Unable to parse event!`);
+      }
     }
   </script>
 </html>
