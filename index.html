@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-BAF0wjWu.js"></script>
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-CJrZkB1B.js"></script>
     <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-ptnCK-mo.css">
   </head>
   <body>
@@ -23,17 +23,6 @@
         window.postMessage(`ERROR::Unable to get print info!`);
       }
     }
-    function brridgePrinterGetInfoWithParams() {
-      try {
-        // alert("get Printer Info!");
-        if (Joseph && typeof Joseph.printerStatus === 'function') {
-          Joseph.printerStatus(JSON.stringify({ message: 'with dummy params' }));
-          window.postMessage(`[CLICKED] fn: Joseph.printerStats(${JSON.stringify({ message: 'with dummy params' })})`);
-        }
-      } catch (err) {
-        window.postMessage(`ERROR::Unable to get print info!`);
-      }
-    }
     function brridgePrinterPrint(params) {
       try {
         // alert("print!");
@@ -44,8 +33,7 @@
       }
     }
     function brridgeEvent(param) {
-      window.postMessage(`ITS A SONY`);
-      alert(`EVENT: ${param}`);
+      console.log(`<<RECEIVED>>::${params}`);
     }
   </script>
 </html>
