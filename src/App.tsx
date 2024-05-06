@@ -138,11 +138,16 @@ function App() {
           <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" onClick={handlePrint} disabled={isPrinting}>
             {!isPrinting ? 'Print' : 'Printing...'}
           </button>
-          <div className="text-center text-xs mt-4">v1.0.10</div>
+          <div className="text-center text-xs mt-4">v1.0.11</div>
           <div className="mt-12">
             <button className="w-full border rounded-full py-1 bg-white" type="button" onClick={() => {
               window.brridgePrinterGetInfo();
-            }}>Get Printer Status [test]</button>
+            }}>Get Printer Status No Param [test Only]</button>
+          </div>
+          <div className="mt-12">
+            <button className="w-full border rounded-full py-1 bg-white" type="button" onClick={() => {
+              window.brridgePrinterGetInfoWithParams();
+            }}>Get Printer Status With Params [test Only]</button>
           </div>
         </div>
       </div>

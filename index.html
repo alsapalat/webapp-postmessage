@@ -14,7 +14,21 @@
     function brridgePrinterGetInfo() {
       try {
         // alert("get Printer Info!");
-        if (Joseph && typeof Joseph.printerStatus === 'function') Joseph.printerStatus();
+        if (Joseph && typeof Joseph.printerStatus === 'function') {
+          Joseph.printerStatus();
+          window.postMessage(`[CLICKED] fn: Joseph.printerStats()`);
+        }
+      } catch (err) {
+        window.postMessage(`ERROR::Unable to get print info!`);
+      }
+    }
+    function brridgePrinterGetInfoWithParams() {
+      try {
+        // alert("get Printer Info!");
+        if (Joseph && typeof Joseph.printerStatus === 'function') {
+          Joseph.printerStatus(JSON.stringify({ message: 'with dummy params' }));
+          window.postMessage(`[CLICKED] fn: Joseph.printerStats(${JSON.stringify({ message: 'with dummy params' })})`);
+        }
       } catch (err) {
         window.postMessage(`ERROR::Unable to get print info!`);
       }
