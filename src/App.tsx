@@ -142,7 +142,7 @@ function App() {
           <div className="mt-12">
             <button className="w-full border rounded-full py-1 bg-white" type="button" onClick={() => {
               window.brridgePrinterGetInfo();
-            }}>Get Printer Status No Param [test Only]</button>
+            }}>Get Printer Status [TEST ONLY]</button>
           </div>
         </div>
       </div>
