@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Children, useEffect, useRef, useState } from 'react';
+import { Children, useEffect, useState } from 'react';
 import { TPrintData } from './brridge/types';
 import clsx from 'clsx';
 import Barcode from 'react-barcode';
@@ -21,39 +21,80 @@ const TEST_PRINT: TPrintData = [
   { type: 'QR', value: '- Hello-World -' },
 ]
 
-const PrintButton = () => {
-  const [log, setLog] = useState<string[]>([]);
-  const [canPrint, setCanPrint] = useState(false);
-  useEffect(() => {
+const PrintButton = ({
+  onPrint
+}: {
+  onPrint: (bool: boolean) => void
+}) => {
+  const [isReady, setIsReady] = useState(false);
+  const [isTimeout, setIsTimeout] = useState(false);
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [error, setError] = useState('');
+  const handlePrint = () => {
+    window.brridgePrinterPrint({ data: TEST_PRINT });
+    setIsPrinting(true);
     setTimeout(() => {
-      window.brridgePrinterGetInfo();
-    }, 500);
+      onPrint(true);
+      setTimeout(() => {
+        setIsPrinting(false);
+        onPrint(false)
+      }, 6000);
+    }, 200)
+  }
+  useEffect(() => {
+    window.brridgePrinterGetInfo();
+    const t = setTimeout(() => {
+      setIsTimeout(true)
+    }, 5000);
+
     const receive = (e: MessageEvent) => {
-      setLog((s) => s.concat([JSON.stringify(e?.data)]));
-      console.log(e);
-      setCanPrint(true);
+      try {
+        const raw = JSON.parse(e.data) as any;
+        if (raw?.printerModal) {
+          setIsReady(true);
+          return;
+        }
+        setError('Printer Not Detected')
+        clearTimeout(t);
+      } catch (err) {
+        console.log(err);
+        setError('Invalid Handshake')
+        clearTimeout(t);
+      }
     };
+
     window.addEventListener('message', receive, false);
+
     return () => {
       window.removeEventListener('message', receive);
+      clearTimeout(t);
     }
-  }, []);
+  }, [setIsReady]);
+  if (isTimeout) {
+    return (
+      <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
+        Printer Timeout
+      </button>
+    )
+  }
+  if (!isReady) {
+    return (
+      <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
+        Connecting...
+      </button>
+    )
+  }
+  if (error) {
+    return (
+      <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
+        {error}
+      </button>
+    )
+  }
   return (
-    <div>
-      <div>
-        <button disabled={!canPrint} onClick={() => {
-          window.brridgePrinterPrint(TEST_PRINT);
-        }}>Send Test Print (Array)</button>
-      </div>
-      <div>
-        <button disabled={!canPrint} onClick={() => {
-          window.brridgePrinterPrint({ data: TEST_PRINT });
-        }}>Send Test Print (Object)</button>
-      </div>
-      <div>
-        {Children.toArray(log.map((x) => <div style={{ fontSize: '10px' }}>{x}</div>))}
-      </div>
-    </div>
+    <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" onClick={handlePrint} disabled={isPrinting}>
+      {!isPrinting ? 'Print' : 'Printing...'}
+    </button>
   )
 }
 
@@ -114,13 +155,6 @@ function PrintPreview({ data }: { data: TPrintData }) {
 
 function App() {
   const [isPrinting, setIsPrinting] = useState(false);
-  const handlePrint = () => {
-    window.brridgePrinterPrint({ data: TEST_PRINT });
-    setIsPrinting(true);
-    setTimeout(() => {
-      setIsPrinting(false);
-    }, 6000);
-  }
   return (
     <>
       <div className="h-full w-full max-w-lg bg-orange-100 mx-auto flex flex-col relative z-30">
@@ -135,15 +169,8 @@ function App() {
           </div>
         </div>
         <div className="px-6 pb-6">
-          <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" onClick={handlePrint} disabled={isPrinting}>
-            {!isPrinting ? 'Print' : 'Printing...'}
-          </button>
-          <div className="text-center text-xs mt-4">v1.0.13</div>
-          <div className="mt-12">
-            <button className="w-full border rounded-full py-1 bg-white" type="button" onClick={() => {
-              window.brridgePrinterGetInfo();
-            }}>Get Printer Status [TEST ONLY]</button>
-          </div>
+          <PrintButton onPrint={setIsPrinting} />
+          <div className="text-center text-xs mt-4">v1.0.14</div>
         </div>
       </div>
       <EventLogs />
@@ -168,47 +195,6 @@ function EventLogs() {
       <ul>
         {Children.toArray(logs.map((row) => <li>{row}</li>))}
       </ul>
-    </div>
-  )
-}
-
-export function App2() {
-  const [t, setT] = useState(new Date().getTime());
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [logs, setLogs] = useState<string[]>([]);
-  useEffect(() => {
-    const receive = (e: MessageEvent) => {
-      setLogs((l) => ([`<<RECEIVED>>|${new Date().toISOString()}|${JSON.stringify({ data: e.data })}`]).concat(l));
-    };
-    window.addEventListener('message', receive, false);
-    return () => {
-      window.removeEventListener('message', receive);
-    }
-  }, []);
-  return (
-    <div>
-      <div>v1.0.8</div>
-      <button type="button" onClick={() => {
-        setT(new Date().getTime())
-      }}>Refresh</button>
-      <div key={t} style={{ border: "1px solid #fff", padding: '20px', marginBottom: '20px' }}>
-        <PrintButton />
-      </div>
-      <div style={{ border: "1px solid #fff", padding: '20px' }}>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          const parent: any = window.parent ?? window;
-          parent.postMessage(inputRef.current!.value || 'Hello World', '*')
-          setLogs(([`<<SEND>>|${new Date().toISOString()}|${inputRef.current!.value || 'Hello World'}`]).concat(logs))
-        }}><input style={{ width: '200px' }} ref={inputRef} placeholder="Enter Body (Hello World)" /><button type="submit">Send Message</button></form>
-        <hr />
-        <div>Listener Logs:</div>
-        <div style={{ textAlign: 'left', height: '400px', overflow: 'auto' }}>
-          <ul>
-            {Children.toArray(logs.map((row) => <li>{row}</li>))}
-          </ul>
-        </div>
-      </div>
     </div>
   )
 }
