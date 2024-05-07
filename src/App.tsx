@@ -42,12 +42,9 @@ const PrintButton = ({
     }, 200)
   }
   useEffect(() => {
-    setTimeout(() => {
-      window.brridgePrinterGetInfo();
-    }, 1000);
     const t = setTimeout(() => {
       setIsTimeout(true)
-    }, 6000);
+    }, 5000);
 
     const receive = (e: MessageEvent) => {
       try {
@@ -64,14 +61,23 @@ const PrintButton = ({
         clearTimeout(t);
       }
     };
-
     window.addEventListener('message', receive, false);
 
+    setTimeout(()  => {
+      window.brridgePrinterGetInfo();
+    }, 100);
     return () => {
       window.removeEventListener('message', receive);
       clearTimeout(t);
     }
   }, [setIsReady]);
+  if (error) {
+    return (
+      <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
+        {error}
+      </button>
+    )
+  }
   if (isTimeout) {
     return (
       <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
@@ -83,13 +89,6 @@ const PrintButton = ({
     return (
       <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
         Connecting...
-      </button>
-    )
-  }
-  if (error) {
-    return (
-      <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
-        {error}
       </button>
     )
   }
