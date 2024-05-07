@@ -42,10 +42,12 @@ const PrintButton = ({
     }, 200)
   }
   useEffect(() => {
-    window.brridgePrinterGetInfo();
+    setTimeout(() => {
+      window.brridgePrinterGetInfo();
+    }, 1000);
     const t = setTimeout(() => {
       setIsTimeout(true)
-    }, 5000);
+    }, 6000);
 
     const receive = (e: MessageEvent) => {
       try {
