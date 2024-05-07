@@ -17,10 +17,10 @@
         // alert("get Printer Info!");
         if (Joseph && typeof Joseph.printerStatus === 'function') {
           Joseph.printerStatus();
-          window.postMessage(`[CLICKED] fn: Joseph.printerStats()`);
+          window.postMessage(JSON.stringify({ message: `Clicked fn: Joseph.printerStats()` }));
         }
       } catch (err) {
-        window.postMessage(`ERROR::Unable to get print info!`);
+        window.postMessage(JSON.stringify({ error: true, message: `Unable to get print info!` }));
       }
     }
     function brridgePrinterPrint(params) {
@@ -29,14 +29,14 @@
         console.log(`<<SEND>>::${JSON.stringify(params)}`);
         if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand(JSON.stringify(params));
       } catch (err) {
-        window.postMessage(`ERROR::Unable to connect to printer!`);
+        window.postMessage(JSON.stringify({ error: true, message: `Unable to connect to printer!` }));
       }
     }
     function brridgeEvent(param) {
       try {
-        window.postMessage(`<<RECEIVED>>::${JSON.stringify(param)}`);
+        window.postMessage(JSON.stringify(param));
       } catch (err) {
-        window.postMessage(`ERROR::Unable to parse event!`);
+        window.postMessage(JSON.stringify({ error: true, message: `Unable to parse event!` }));
       }
     }
   </script>
