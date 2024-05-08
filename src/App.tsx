@@ -49,6 +49,7 @@ const PrintButton = ({
     const receive = (e: MessageEvent) => {
       try {
         const raw = JSON.parse(e.data) as any;
+        if (raw?._event === 'DEBUG') return; // ignore event logs
         if (raw?.printerModel) {
           setIsReady(true);
           return;
@@ -171,7 +172,7 @@ function App() {
         </div>
         <div className="px-6 pb-6">
           <PrintButton onPrint={setIsPrinting} />
-          <div className="text-center text-xs mt-4">Version 1.0.18</div>
+          <div className="text-center text-xs mt-4">Version 1.0.19</div>
         </div>
       </div>
       <EventLogs />
