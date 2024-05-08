@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-cPTMYx2C.js"></script>
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-24nV4D-9.js"></script>
     <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-DXmCL0Sq.css">
   </head>
   <body>
@@ -15,33 +15,38 @@
     function brridgePrinterGetInfo() {
       try {
         // alert("get Printer Info!");
-        if (window.Joseph && typeof window.Joseph.printerStatus === 'function') {
-          window.Joseph.printerStatus();
-          // window.postMessage(JSON.stringify({ message: `Clicked fn: Joseph.printerStats()` }));
-        }
+        window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Requesting Printer Info...` }));
+        setTimeout(() => {
+          if (window.Joseph && typeof window.Joseph.printerStatus === 'function') {
+            window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Fn: printerStatus | Start` }));
+            Joseph.printerStatus("{}");
+            window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Fn: printerStatus | End` }));
+          }
+        }, 1000);
       } catch (err) {
-        window.postMessage(JSON.stringify({ error: true, message: `Unable to get print info!`, err }));
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to get print info!` }));
       }
     }
     function brridgePrinterPrint(params) {
       try {
-        // alert("print!");
-        console.log(`<<SEND>>::${JSON.stringify(params)}`);
-        if (window.Joseph && typeof window.Joseph.handleCommand === 'function') window.Joseph.handleCommand(JSON.stringify(params));
+        if (window.Joseph && typeof window.Joseph.handleCommand === 'function') {
+          window.Joseph.handleCommand(JSON.stringify(params));
+        }
       } catch (err) {
-        window.postMessage(JSON.stringify({ error: true, message: `Unable to connect to printer!` }));
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to connect to printer!` }));
       }
     }
     function brridgeEvent(param) {
       try {
-        window.postMessage(param);
+        window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
       } catch (err) {
-        window.postMessage(JSON.stringify({ error: true, message: `Unable to parse event!` }));
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
       }
     }
     // window.Joseph = {
     //   printerStatus: () => {
-    //     brridgeEvent(JSON.stringify({ printerModel: 'abc' }))
+    //     brridgeEvent(JSON.stringify({ printerModel: 'json-string' }))
+    //     // brridgeEvent({ printerModel: 'object' })
     //   }
     // }
   </script>
