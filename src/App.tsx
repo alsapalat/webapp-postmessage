@@ -171,7 +171,7 @@ function App() {
         </div>
         <div className="px-6 pb-6">
           <PrintButton onPrint={setIsPrinting} />
-          <div className="text-center text-xs mt-4">Version 1.0.17</div>
+          <div className="text-center text-xs mt-4">Version 1.0.18</div>
         </div>
       </div>
       <EventLogs />

@@ -19,7 +19,7 @@
           // window.postMessage(JSON.stringify({ message: `Clicked fn: Joseph.printerStats()` }));
         }
       } catch (err) {
-        window.postMessage(JSON.stringify({ error: true, message: `Unable to get print info!` }));
+        window.postMessage(JSON.stringify({ error: true, message: `Unable to get print info!`, err }));
       }
     }
     function brridgePrinterPrint(params) {
