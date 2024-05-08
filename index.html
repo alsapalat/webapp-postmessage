@@ -14,9 +14,9 @@
     function brridgePrinterGetInfo() {
       try {
         // alert("get Printer Info!");
-        if (Joseph && typeof Joseph.printerStatus === 'function') {
-          Joseph.printerStatus();
-          window.postMessage(JSON.stringify({ message: `Clicked fn: Joseph.printerStats()` }));
+        if (window.Joseph && typeof window.Joseph.printerStatus === 'function') {
+          window.Joseph.printerStatus();
+          // window.postMessage(JSON.stringify({ message: `Clicked fn: Joseph.printerStats()` }));
         }
       } catch (err) {
         window.postMessage(JSON.stringify({ error: true, message: `Unable to get print info!` }));
@@ -26,17 +26,22 @@
       try {
         // alert("print!");
         console.log(`<<SEND>>::${JSON.stringify(params)}`);
-        if (Joseph && typeof Joseph.handleCommand === 'function') Joseph.handleCommand(JSON.stringify(params));
+        if (window.Joseph && typeof window.Joseph.handleCommand === 'function') window.Joseph.handleCommand(JSON.stringify(params));
       } catch (err) {
         window.postMessage(JSON.stringify({ error: true, message: `Unable to connect to printer!` }));
       }
     }
     function brridgeEvent(param) {
       try {
-        window.postMessage(JSON.stringify(param));
+        window.postMessage(param);
       } catch (err) {
         window.postMessage(JSON.stringify({ error: true, message: `Unable to parse event!` }));
       }
     }
+    // window.Joseph = {
+    //   printerStatus: () => {
+    //     brridgeEvent(JSON.stringify({ printerModel: 'abc' }))
+    //   }
+    // }
   </script>
 </html>

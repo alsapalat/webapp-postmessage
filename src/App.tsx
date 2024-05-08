@@ -122,7 +122,7 @@ function divider(char: string) {
 function PrintPreview({ data }: { data: TPrintData }) {
   return (
     <div className="font-mono">
-      {data.map((item) => {
+      {Children.toArray(data.map((item) => {
         if (item.type === 'Text'){
           return <div className={clsx(ALIGN_CLASS[item.align ?? 'default'], MAP_SIZE[item.size ?? 'default'])}>{item.value}</div>
         }
@@ -149,7 +149,7 @@ function PrintPreview({ data }: { data: TPrintData }) {
           )
         }
         return <div>unknown line {item.type}</div>
-      })}
+      }))}
     </div>
   )
 }
@@ -171,7 +171,7 @@ function App() {
         </div>
         <div className="px-6 pb-6">
           <PrintButton onPrint={setIsPrinting} />
-          <div className="text-center text-xs mt-4">Version 1.0.16</div>
+          <div className="text-center text-xs mt-4">Version 1.0.17</div>
         </div>
       </div>
       <EventLogs />
