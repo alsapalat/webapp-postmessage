@@ -52,6 +52,7 @@ const PrintButton = ({
         if (raw?._event === 'DEBUG') return; // ignore event logs
         if (raw?.printerModel) {
           setIsReady(true);
+          clearTimeout(t);
           return;
         }
         setError('Printer Not Detected')
@@ -172,7 +173,7 @@ function App() {
         </div>
         <div className="px-6 pb-6">
           <PrintButton onPrint={setIsPrinting} />
-          <div className="text-center text-xs mt-4">Version 1.0.19</div>
+          <div className="text-center text-xs mt-4">Version 1.0.20</div>
         </div>
       </div>
       <EventLogs />
