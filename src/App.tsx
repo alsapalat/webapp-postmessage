@@ -21,6 +21,17 @@ const TEST_PRINT: TPrintData = [
   { type: 'QR', value: '- Hello-World -' },
 ]
 
+type TPosEvent = ({
+  _event: 'DEBUG'
+} | {
+  _event: 'LOGOUT'
+} | {
+  _event: 'PRINT_LOG'
+} | {
+  _event: 'PRINTER_STATUS',
+  printerModel?: string
+})
+
 const PrintButton = ({
   onPrint
 }: {
@@ -48,15 +59,28 @@ const PrintButton = ({
 
     const receive = (e: MessageEvent) => {
       try {
-        const raw = JSON.parse(e.data) as any;
+        const raw = JSON.parse(e.data) as TPosEvent;
         if (raw?._event === 'DEBUG') return; // ignore event logs
-        if (raw?.printerModel) {
-          setIsReady(true);
-          clearTimeout(t);
+
+        if (raw?._event === 'PRINT_LOG') {
+          console.log('print log', raw);
           return;
         }
-        setError('Printer Not Detected')
-        clearTimeout(t);
+
+        if (raw?._event === 'LOGOUT') {
+          console.log('logout', raw);
+          return;
+        }
+
+        if (raw?._event === 'PRINTER_STATUS') {
+          if (raw?.printerModel) {
+            setIsReady(true);
+            clearTimeout(t);
+            return;
+          }
+          setError('Printer Not Detected')
+          clearTimeout(t);
+        }
       } catch (err) {
         console.log(err);
         setError('Invalid Handshake')
