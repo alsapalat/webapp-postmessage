@@ -4,8 +4,8 @@ export {};
 
 declare global {
     interface Window {
-        // Below just informs IDE and/or TS-compiler (it's set in `.js` file).
-        brridgePrinterGetInfo: () => void;
-        brridgePrinterPrint: (params: TPrintData | { data: TPrintData }) => void;
+        MsysWebPosGetPrinterInfo: () => void;
+        MsysWebPosPrint: (params: TPrintData | { data: TPrintData }) => void;
+        MsysWebPosLogout: () => void;
     }
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Vite + React + TS</title>
   </head>
   <body>
@@ -11,42 +11,49 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
   <script>
-    function brridgePrinterGetInfo() {
-      try {
-        // alert("get Printer Info!");
-        window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Requesting Printer Info...` }));
-        setTimeout(() => {
-          if (window.Joseph && typeof window.Joseph.printerStatus === 'function') {
-            window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Fn: printerStatus | Start` }));
-            Joseph.printerStatus("{}");
-            window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Fn: printerStatus | End` }));
-          }
-        }, 1000);
-      } catch (err) {
-        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to get print info!` }));
-      }
-    }
-    function brridgePrinterPrint(params) {
-      try {
-        if (window.Joseph && typeof window.Joseph.handleCommand === 'function') {
-          window.Joseph.handleCommand(JSON.stringify(params));
-        }
-      } catch (err) {
-        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to connect to printer!` }));
-      }
-    }
-    function brridgeEvent(param) {
+
+    function MsysWebPosSendEvent(params) {
       try {
         window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
       } catch (err) {
         window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
       }
     }
-    // window.Joseph = {
-    //   printerStatus: () => {
-    //     brridgeEvent(JSON.stringify({ printerModel: 'json-string' }))
-    //     // brridgeEvent({ printerModel: 'object' })
-    //   }
-    // }
+
+    function MsysWebPosGetPrinterInfo() {
+      try {
+        window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Requesting Printer Info...` }));
+        setTimeout(() => {
+          if (window.MsysMobilePOS && typeof window.MsysMobilePOS.getPrinterStatus === 'function') {
+            MsysMobilePOS.getPrinterStatus();
+          }
+        }, 1000);
+      } catch (err) {
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to get print info!` }));
+      }
+    }
+
+    function MsysWebPosPrint() {
+      try {
+        window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Sending Print Details...` }));
+        if (window.MsysMobilePOS && typeof window.MsysMobilePOS.print === 'function') {
+          window.MsysMobilePOS.print(JSON.stringify(params));
+        }
+      } catch (err) {
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to connect to printer!` }));
+      }
+    }
+
+    function MsysWebPosLogout() {
+      try {
+        window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Requesting Logout...` }));
+        if (window.MsysMobilePOS && typeof window.MsysMobilePOS.logout === 'function') {
+          window.MsysMobilePOS.logout();
+        }
+      } catch (err) {
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to logout!` }));
+      }
+    }
+
   </script>
 </html>

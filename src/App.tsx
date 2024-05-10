@@ -31,7 +31,7 @@ const PrintButton = ({
   const [isPrinting, setIsPrinting] = useState(false);
   const [error, setError] = useState('');
   const handlePrint = () => {
-    window.brridgePrinterPrint({ data: TEST_PRINT });
+    window.MsysWebPosPrint({ data: TEST_PRINT });
     setIsPrinting(true);
     setTimeout(() => {
       onPrint(true);
@@ -66,7 +66,7 @@ const PrintButton = ({
     window.addEventListener('message', receive, false);
 
     setTimeout(()  => {
-      window.brridgePrinterGetInfo();
+      window.MsysWebPosGetPrinterInfo();
     }, 100);
     return () => {
       window.removeEventListener('message', receive);
@@ -157,12 +157,21 @@ function PrintPreview({ data }: { data: TPrintData }) {
 }
 
 function App() {
+  const [showLogs, setShowLogs] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
   return (
     <>
       <div className="h-full w-full max-w-lg bg-orange-100 mx-auto flex flex-col relative z-30">
-        <div className="px-6 pt-6">
-          <div className="font-bold text-center">Test Print</div>
+        <div className="flex justify-between items-center px-6 pt-6">
+          <button className="text-sm font-semibold text-orange-500" type="button" onClick={() => {
+            setShowLogs(!showLogs);
+          }}>Logs</button>
+          <div className="px-6">
+            <div className="font-bold text-center">Test Print</div>
+          </div>
+          <button className="text-sm font-semibold text-orange-500" type="button" onClick={() => {
+            window.MsysWebPosLogout();
+          }}>Logout</button>
         </div>
         <div className="flex-1 relative overflow-hidden">
           <div className="absolute inset-0 h-full w-full p-6 overflow-auto">
@@ -173,10 +182,12 @@ function App() {
         </div>
         <div className="px-6 pb-6">
           <PrintButton onPrint={setIsPrinting} />
-          <div className="text-center text-xs mt-4">Version 1.0.20</div>
+          <div className="text-center text-xs mt-4">Version 1.1.0</div>
         </div>
       </div>
-      <EventLogs />
+      <div className={`${showLogs ? 'opacity-100' : 'opacity-0'} pointer-events-none`}>
+        <EventLogs />
+      </div>
     </>
   )
 }
@@ -193,7 +204,7 @@ function EventLogs() {
     }
   }, []);
   return (
-    <div className="absolute top-0 left-0 w-full text-xs text-white z-50 bg-black/40 overflow-hidden max-h-[200px]">
+    <div className="absolute top-16 left-0 w-full text-xs text-white z-50 bg-black/40 overflow-hidden max-h-[200px]">
       <div>Logs:</div>
       <ul>
         {Children.toArray(logs.map((row) => <li>{row}</li>))}
