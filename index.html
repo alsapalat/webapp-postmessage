@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-xo386dEe.js"></script>
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-AcZcdswR.js"></script>
     <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-uSRMLurG.css">
   </head>
   <body>
@@ -17,7 +17,7 @@
       try {
         window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
       } catch (err) {
-        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!`, err }));
       }
     }
 
@@ -56,5 +56,12 @@
       }
     }
 
+    function brridgeEvent(param) {
+      try {
+        window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
+      } catch (err) {
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
+      }
+    }
   </script>
 </html>
