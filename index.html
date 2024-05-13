@@ -16,7 +16,7 @@
       try {
         window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
       } catch (err) {
-        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!`, err }));
       }
     }
 
@@ -55,5 +55,12 @@
       }
     }
 
+    function brridgeEvent(param) {
+      try {
+        window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
+      } catch (err) {
+        window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
+      }
+    }
   </script>
 </html>
