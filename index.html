@@ -5,15 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/webapp-postmessage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/webapp-postmessage/assets/index-AcZcdswR.js"></script>
-    <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-uSRMLurG.css">
+    <script type="module" crossorigin src="/webapp-postmessage/assets/index-BjLMe1Op.js"></script>
+    <link rel="stylesheet" crossorigin href="/webapp-postmessage/assets/index-ByNBGQfa.css">
   </head>
   <body>
     <div id="root"></div>
   </body>
   <script>
 
-    function MsysWebPosSendEvent(params) {
+    function MsysWebPosSendEvent(param) {
       try {
         window.postMessage(typeof param === 'string' ? param : JSON.stringify(param));
       } catch (err) {
@@ -34,7 +34,7 @@
       }
     }
 
-    function MsysWebPosPrint() {
+    function MsysWebPosPrint(params) {
       try {
         window.postMessage(JSON.stringify({ _event: 'DEBUG', message: `Sending Print Details...` }));
         if (window.MsysMobilePOS && typeof window.MsysMobilePOS.print === 'function') {
@@ -63,5 +63,23 @@
         window.postMessage(JSON.stringify({ _event: 'ERROR', message: `Unable to parse event!` }));
       }
     }
+
+    // THIS CODE IS SIMULATOR FOR APP
+    // window.MsysMobilePOS = {
+    //   getPrinterStatus: () => {
+    //     MsysWebPosSendEvent(JSON.stringify({ _event: 'PRINTER_STATUS', printerModel: 'json-string' }))
+    //   },
+    //   print: (params) => {
+    //     setTimeout(() => {
+    //       MsysWebPosSendEvent(JSON.stringify({ _event: 'PRINT_LOG', code: 'PRINTING' }))
+    //       setTimeout(() => {
+    //         MsysWebPosSendEvent(JSON.stringify({ _event: 'PRINT_LOG', code: 'PRINTING SUCCESS' }))
+    //       }, 3000);
+    //     }, 1000);
+    //   },
+    //   logout: () => {
+    //     MsysWebPosSendEvent(JSON.stringify({ _event: 'LOGOUT', message: 'Logout request...' }))
+    //   }
+    // }
   </script>
 </html>
