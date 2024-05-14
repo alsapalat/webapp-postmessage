@@ -222,7 +222,7 @@ function App() {
         </div>
         <div className="px-6 pb-6">
           <PrintButton onPrint={setIsPrinting} />
-          <div className="text-center text-xs mt-4">Version 1.1.1</div>
+          <div className="text-center text-xs mt-4">Version 1.1.2</div>
         </div>
       </div>
       <div className={`${showLogs ? 'opacity-100' : 'opacity-0'} pointer-events-none`}>
