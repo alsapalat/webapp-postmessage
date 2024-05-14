@@ -27,6 +27,8 @@ type TPosEvent = ({
   _event: 'LOGOUT'
 } | {
   _event: 'PRINT_LOG'
+  code: 'PRINTING' | 'PRINTING SUCCESS' | 'PRINTING ERROR'
+  message: string
 } | {
   _event: 'PRINTER_STATUS',
   printerModel?: string
@@ -40,17 +42,11 @@ const PrintButton = ({
   const [isReady, setIsReady] = useState(false);
   const [isTimeout, setIsTimeout] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
+  const [isPrintSuccess, setIsPrintSuccess] = useState(false);
   const [error, setError] = useState('');
   const handlePrint = () => {
-    window.MsysWebPosPrint({ data: TEST_PRINT });
     setIsPrinting(true);
-    setTimeout(() => {
-      onPrint(true);
-      setTimeout(() => {
-        setIsPrinting(false);
-        onPrint(false)
-      }, 6000);
-    }, 200)
+    window.MsysWebPosPrint({ data: TEST_PRINT });
   }
   useEffect(() => {
     const t = setTimeout(() => {
@@ -63,7 +59,20 @@ const PrintButton = ({
         if (raw?._event === 'DEBUG') return; // ignore event logs
 
         if (raw?._event === 'PRINT_LOG') {
-          console.log('print log', raw);
+          if (raw.code === 'PRINTING') {
+            onPrint(true);
+          }
+
+          if (raw.code === 'PRINTING SUCCESS') {
+            setIsPrintSuccess(true);
+            // setIsPrinting(false);
+            // onPrint(false)
+          }
+
+          if (raw.code === 'PRINTING ERROR') {
+            setIsPrinting(false);
+            onPrint(false)
+          }
           return;
         }
 
@@ -115,6 +124,13 @@ const PrintButton = ({
     return (
       <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
         Connecting...
+      </button>
+    )
+  }
+  if (isPrintSuccess) {
+    return (
+      <button className="w-full h-12 bg-orange-500 text-white font-semibold rounded-full disabled:opacity-40" disabled>
+        Print Complete
       </button>
     )
   }
@@ -181,7 +197,7 @@ function PrintPreview({ data }: { data: TPrintData }) {
 }
 
 function App() {
-  const [showLogs, setShowLogs] = useState(false);
+  const [showLogs, setShowLogs] = useState(true);
   const [isPrinting, setIsPrinting] = useState(false);
   return (
     <>
@@ -199,7 +215,7 @@ function App() {
         </div>
         <div className="flex-1 relative overflow-hidden">
           <div className="absolute inset-0 h-full w-full p-6 overflow-auto">
-            <div className={clsx("w-full bg-white shadow-lg border border-gray-100 py-8 ease-linear duration-[5s]", isPrinting ? 'transition-all translate-y-[-200%]' : 'transition-none translate-y-0')}>
+            <div className={clsx("w-full bg-white shadow-lg border border-gray-100 py-8 ease-linear duration-[4s]", isPrinting ? 'transition-all translate-y-[-200%]' : 'transition-none translate-y-0')}>
               <PrintPreview data={TEST_PRINT} />
             </div>
           </div>
